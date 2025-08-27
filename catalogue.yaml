@@ -30,6 +30,8 @@
       url: https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
       dest: /tmp/catalogue.zip
 
+# this module thinks file exist on ansible control server, needs to extract on to remote machine
+  # remote_src: yes means files already exist in catalogue server
   - name: unzip cataloguecode
     ansible.builtin.unarchive:
       src: /tmp/catalogue.zip
@@ -45,4 +47,24 @@
       src: catalogue.services
       dest: /etc/systemd/system/catalogue.service
 
-      
+  - name: systemctl deamon reload
+    ansible.builtin.systemd_service:
+      daemon_reload: true
+
+  - name: Start and enable catalogue
+    ansible.builtin.service:
+       name: catalogue
+       state: started  
+       enable: yes  
+
+  - name: copy mongodb repo
+    ansible.builtin.copy:
+      src: mongo.repo
+      dest: /etc/yum.repos.d/mongo.repo
+
+  - name: Install mongodb clint
+    ansible.builtin.package:
+      name: mongodb-mongosh
+      state: present
+   
+             
