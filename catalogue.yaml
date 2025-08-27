@@ -75,6 +75,7 @@
     ansible.builtin.debug:
       msg: "{{ catalogue_output }}"
 
-  - name: loaded products
-    ansible.builtin.shell: mongosh --host MONGODB-SERVER-IPADDRESS </app/db/master-data.js
-    when: catalogue_output.stdout | int < 0    # string to integer so we use pipe command 
+  - name: load products
+    ansible.builtin.shell: mongosh --host mongodb.daws84s.site < /app/db/master-data.js
+    when: catalogue_output.stdout | int < 0  # convert string to integer
+      
