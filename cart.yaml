@@ -57,3 +57,7 @@
       state: started
       enabled: yes
   
+  - name: Restart Nginx service
+    ansible.builtin.service:
+      name: cart
+      state: restarted
