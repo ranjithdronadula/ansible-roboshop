@@ -58,6 +58,8 @@
       enabled: yes
   
   - name: Restart cart service
+    tags:
+    - import
     ansible.builtin.service:
       name: cart
       state: restarted
